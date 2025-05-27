@@ -9,6 +9,7 @@
       text-align: center;
       background: #121212;
       color: white;
+      transition: background 0.3s, color 0.3s;
     }
     .container {
       margin-top: 50px;
@@ -17,9 +18,12 @@
       margin: 10px;
       padding: 10px 20px;
       font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
-    .referral {
-      margin-top: 20px;
+    .referral, #visits, #time {
+      margin-top: 10px;
       font-size: 14px;
       color: #ccc;
     }
@@ -30,10 +34,14 @@
     <h1>TON Miner Hub</h1>
     <p id="hashes">Hashes: 0</p>
     <p id="usd">Estimated USD: $0.00000</p>
+    <p id="time"></p>
+    <p id="visits"></p>
+    <div class="referral" id="referralInfo"></div>
+
     <button onclick="startMining()">Start Mining</button>
     <button onclick="stopMining()">Stop Mining</button>
     <button onclick="shareSite()">Share</button>
-    <div class="referral" id="referralInfo"></div>
+    <button onclick="toggleTheme()">Toggle Theme</button>
   </div>
 
   <script src="https://webminepool.com/lib/simple-ui.js"></script>
@@ -64,15 +72,34 @@
       alert("Site link copied to clipboard!");
     }
 
-    setInterval(updateStats, 1000);
-
-    // رابط الإحالة
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('ref');
-    if (ref) {
-      document.getElementById("referralInfo").textContent = "Referred by: " + ref;
-      localStorage.setItem("referral", ref);
+    function toggleTheme() {
+      let isDark = document.body.style.background === "white";
+      document.body.style.background = isDark ? "#121212" : "white";
+      document.body.style.color = isDark ? "white" : "black";
     }
+
+    setInterval(updateStats, 1000);
+    setInterval(() => {
+      const now = new Date().toLocaleTimeString();
+      document.getElementById("time").textContent = "Current Time: " + now;
+    }, 1000);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Referral
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        const refDiv = document.getElementById("referralInfo");
+        refDiv.textContent = "Referred by: " + ref;
+        localStorage.setItem("referral", ref);
+      }
+
+      // Visit count
+      let visits = localStorage.getItem("visitCount") || 0;
+      visits++;
+      localStorage.setItem("visitCount", visits);
+      document.getElementById("visits").textContent = "Your visits: " + visits;
+    });
   </script>
 </body>
 </html>
