@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web Miner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Mining Hub</h1>
+    <p>Support us by keeping this page open. Your device helps mine crypto for the community.</p>
+
+    <button onclick="startMining()">Start Mining</button>
+    <button onclick="stopMining()">Stop Mining</button>
+    <p id="hashes">Hashes: 0</p>
+    <p id="usd">Estimated USD: $0.00</p>
+
+    <button onclick="changeLang()">Change Language</button>
+    <button onclick="shareSite()">Invite & Share</button>
+  </div>
+  <script src="https://webminepool.com/lib/simple-ui.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
